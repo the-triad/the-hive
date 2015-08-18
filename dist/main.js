@@ -5,8 +5,7 @@ var roles = {};
 var hatchery = require('hatchery');
 
 for(var spawnName in Game.spawns) {
-    var spawn = Game.spawns[spawnName];
-    hatchery(spawn);
+    hatchery(spawnName);
 }
 
 for(var name in Game.creeps) {

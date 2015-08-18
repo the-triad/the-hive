@@ -1,5 +1,11 @@
 /**/
 var harvester = require('harvester');
+var hatchery = require('hatchery');
+
+for(var spawnName in Game.spawns) {
+    var spawn = Game.spawns[spawnName];
+    hatchery(spawn);
+}
 
 for(var name in Game.creeps) {
 	var creep = Game.creeps[name];
@@ -10,7 +16,7 @@ for(var name in Game.creeps) {
 
 	if(creep.memory.role == 'builder') {
 	
-		if(creep.carry.energy == 0) {
+		if(creep.carry.energy === 0) {
 			creep.moveTo(Game.spawns.Spawn1);
 			Game.spawns.Spawn1.transferEnergy(creep);
 		}
@@ -24,10 +30,10 @@ for(var name in Game.creeps) {
 	}
 	
 	if(creep.memory.role == 'guard') {
-	    var targets = creep.room.find(FIND_HOSTILE_CREEPS);
-	    if(targets.length) {
-    		creep.moveTo(targets[0]);
-		    creep.attack(targets[0]);
-	    }
+		var targets = creep.room.find(FIND_HOSTILE_CREEPS);
+		if(targets.length) {
+			creep.moveTo(targets[0]);
+			creep.attack(targets[0]);
+		}
     }
 }

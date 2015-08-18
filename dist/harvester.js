@@ -1,5 +1,7 @@
 /**/
-module.exports = function (creep) {
+module.exports = function (creepName) {
+
+	var creep = Game.creeps[creepName];
 
 	if(creep.carry.energy < creep.carryCapacity) {
 		var sources = creep.room.find(FIND_SOURCES);
@@ -10,4 +12,4 @@ module.exports = function (creep) {
 		creep.moveTo(Game.spawns.Spawn1);
 		creep.transferEnergy(Game.spawns.Spawn1);
 	}
-}
+};

@@ -6,7 +6,7 @@ var roles = {};
 for(var name in Game.creeps) {
 	var creep = Game.creeps[name];
 
-	if (roles[creep.memory.role]) {
+	if (!roles[creep.memory.role]) {
 		// Load roles on demand
 		roles[creep.memory.role] = require(creep.memory.role);
 	}

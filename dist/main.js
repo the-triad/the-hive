@@ -1,33 +1,15 @@
 /**/
-var harvester = require('harvester');
+var info = require('info')();
+
+var roles = {};
 
 for(var name in Game.creeps) {
 	var creep = Game.creeps[name];
 
-	if(creep.memory.role == 'harvester') {
-		harvester(creep);
+	if (roles[creep.memory.role]) {
+		// Load roles on demand
+		roles[creep.memory.role] = require(creep.memory.role);
 	}
-
-	if(creep.memory.role == 'builder') {
-	
-		if(creep.carry.energy == 0) {
-			creep.moveTo(Game.spawns.Spawn1);
-			Game.spawns.Spawn1.transferEnergy(creep);
-		}
-		else {
-			var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-			if(targets.length) {
-				creep.moveTo(targets[0]);
-				creep.build(targets[0]);
-			}
-		}
-	}
-	
-	if(creep.memory.role == 'guard') {
-	    var targets = creep.room.find(FIND_HOSTILE_CREEPS);
-	    if(targets.length) {
-    		creep.moveTo(targets[0]);
-		    creep.attack(targets[0]);
-	    }
-    }
+	// make the creep execute it's role.
+	roles[creep.memory.role](creep);
 }

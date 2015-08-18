@@ -1,13 +1,13 @@
 /**/
-module.exports = function (creep) {
+module.exports = function (creepName) {
+	var creep = Game.creeps[creepName];
 
-	if(creep.carry.energy < creep.carryCapacity) {
+	if (creep.carry.energy < creep.carryCapacity) {
 		var sources = creep.room.find(FIND_SOURCES);
 		creep.moveTo(sources[0]);
 		creep.harvest(sources[0]);
-	}
-	else {
+	} else {
 		creep.moveTo(Game.spawns.Spawn1);
 		creep.transferEnergy(Game.spawns.Spawn1);
 	}
-}
+};

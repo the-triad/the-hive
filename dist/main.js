@@ -16,5 +16,5 @@ for(var name in Game.creeps) {
 		roles[creep.memory.role] = require(creep.memory.role);
 	}
 	// make the creep execute it's role.
-	roles[creep.memory.role](creep);
+	roles[creep.memory.role](name);
 }

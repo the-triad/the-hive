@@ -1,6 +1,7 @@
-module.exports = function (creep) {
-
-	if (creep.carry.energy == 0) {
+module.exports = function (creepName) {
+    
+    var creep = Game.creeps[creepName];
+	if (creep.carry.energy === 0) {
 		creep.moveTo(Game.spawns.Spawn1);
 		Game.spawns.Spawn1.transferEnergy(creep);
 	} else {

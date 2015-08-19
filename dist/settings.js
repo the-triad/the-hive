@@ -4,9 +4,9 @@
 module.exports = function () {
 	return {
 		creepRatio: {
-			harvester: 90,
-			guard: 8,
-			builder: 2
+			harvester: 70,
+			guard: 30,
+			builder: 0
 		},
 		creepBodies: {
 			harvester: [WORK, CARRY, MOVE],

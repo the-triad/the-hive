@@ -3,6 +3,23 @@ module.exports = function (spawnName) {
 
 	var spawn = Game.spawns[spawnName];
 	var roles = {};
+	
+	if (!spawn.memory.sources) {
+		spawn.memory.sources = [];
+		var sources = spawn.room.find(FIND_SOURCES);
+		for(var sourceIndex in sources) {
+			var source = sources[sourceIndex];
+			spawn.memory.sources.push({
+				path: spawn.room.findPath(spawn.pos, source.pos),
+				capacity: 5, // we'll have a formula for this
+				assigned: 0,
+				index: sourceIndex
+			});
+			spawn.memory.sources.sort(function (a, b) {
+				return a.path.length - b.path.length;
+			});
+		}
+	}
 
 	// the hatchery manages its creeps
 	// spawn.memory.creeps is a list
@@ -38,9 +55,10 @@ module.exports = function (spawnName) {
 			spawn.canCreateCreep(body) == OK
 		) {
 			spawn.memory.creeps = spawn.memory.creeps || [];
-			spawn.memory.creeps.push(spawn.createCreep(body, undefined, {role: creepRole}));
+			spawn.memory.creeps.push(spawn.createCreep(body, undefined, {role: creepRole, hatcheryName: spawnName}));
 			break;
 		}
 	}
 	
 };
+

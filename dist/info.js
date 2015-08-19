@@ -4,7 +4,8 @@
  */
 module.exports = function () {
 	var info = {
-		count: {}
+		count: {},
+		total: 0
 	};
 
 	for (var name in Game.creeps) {
@@ -14,6 +15,7 @@ module.exports = function () {
 		} else {
 			info.count[creep.memory.role] = 0;
 		}
+		info.total++;
 	}
 
 	return {
@@ -22,4 +24,4 @@ module.exports = function () {
 		}
 
 	};
-}
+};

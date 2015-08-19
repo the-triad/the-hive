@@ -1,29 +1,55 @@
-/**/
-module.exports = function (spawnName) {
+/*global Game, Memory, FIND_SOURCES, MEMORY, OK*/
+module.exports = function (hatcheryName) {
 
+	var hatchery = Memory.hatcheries[hatcheryName];
+	var spawnName = hatchery.spawnName;
 	var spawn = Game.spawns[spawnName];
-	var roles = {};
 	
-	if (!spawn.memory.sources) {
-		spawn.memory.sources = [];
+
+	if (!hatchery.sources) {
+		// initial step of figuring out the sources
+		hatchery.sources = [];
 		var sources = spawn.room.find(FIND_SOURCES);
 		for(var sourceIndex in sources) {
 			var source = sources[sourceIndex];
-			spawn.memory.sources.push({
+			hatchery.sources.push({
 				path: spawn.room.findPath(spawn.pos, source.pos),
-				capacity: 5, // we'll have a formula for this
-				assigned: 0,
-				index: sourceIndex
+				assigned: null,
+				source: source
 			});
-			spawn.memory.sources.sort(function (a, b) {
+			// closest source comes first
+			hatchery.sources.sort(function (a, b) {
 				return a.path.length - b.path.length;
 			});
 		}
 	}
-
+	
+	for (var sourceIndex in hatchery.sources) {
+		// we make sure the source has a harvester
+		var sourceObj = hatchery.sources[sourceIndex];
+		var assigned = sourceObj.assigned;
+		var sourceCreep = Game.creeps[assigned];
+		if (!sourceCreep && assigned != 'incoming') {
+			// we need a harvester there
+			hatchery.prodQ.push({
+				role: 'harvester',
+				source: sourceObj
+			});
+			sourceObj.assigned = 'incoming';
+		}
+	}
+	
+	if (hatchery.prodQ.length) {
+		var prodObj = hatchery.prodQ[0];
+		var body = Memory.settings.creepRoles[prodObj.role].body;
+		if(spawn.canCreateCreep() == OK) {
+			spawn.createCreep(body, undefined, {role: prodObj.role, hatcheryName: hatcheryName});
+			hatchery.prodQ.shift();
+		}
+	}
 	// the hatchery manages its creeps
 	// spawn.memory.creeps is a list
-	var rolesCount = {};
+	/*var rolesCount = {};
 	var totalCount = 0;
 	for(var index in spawn.memory.creeps) {
 		var creepName = spawn.memory.creeps[index];
@@ -58,7 +84,7 @@ module.exports = function (spawnName) {
 			spawn.memory.creeps.push(spawn.createCreep(body, undefined, {role: creepRole, hatcheryName: spawnName}));
 			break;
 		}
-	}
+	}*/
 	
 };
 

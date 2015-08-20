@@ -13,7 +13,7 @@ if (!Memory.settings) {
 // spawn points
 var hatchery = require('hatchery');
 
-if (!Memory.hatcheries) {
+if (!Memory.hatcheries && Object.keys(Game.spawns).length) {
 	// initial zone
 	Memory.hatcheries = {
 		'hatchery1': {

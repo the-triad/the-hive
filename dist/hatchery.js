@@ -39,6 +39,12 @@ module.exports = function (hatcheryName) {
 		}
 	}
 	
+	/*if (hatchery.pickupQ.length) {
+	    hatchery.prodQ.unshift({
+	        role: 'courier'
+	    });
+	}*/
+	
 	if (hatchery.prodQ.length) {
 		var prodObj = hatchery.prodQ[0];
 		var body = Memory.settings.creepRoles[prodObj.role].body;
@@ -47,7 +53,7 @@ module.exports = function (hatcheryName) {
 			    role: prodObj.role,
 			    hatcheryName: hatcheryName,
 			    source: prodObj.source,
-			    target: prodObj.targetName
+			    targetName: prodObj.targetName
 			});
 			hatchery.prodQ.shift();
 		}

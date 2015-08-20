@@ -13,7 +13,7 @@ module.exports = function (creep) {
 
 	creep.moveTo(target);
     if (
-        creep.carry.energy > 0.8 * creep.carryCapacity &&
+        creep.carry.energy >= 0.8 * creep.carryCapacity &&
         !creep.memory.courier
     ) { // TODO use settings
         hatchery.pickupQ.push(creep.name);

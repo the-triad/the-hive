@@ -5,9 +5,12 @@ module.exports = function (creep) {
 
 	if (!creep.memory.mule) {
 	    creep.memory.mule = 'incoming';
-	    hatchery.prodQ.push({
+	    hatchery.prodQ.unshift({
 	        role: 'mule',
 	        targetName: creep.name
+	    });
+	    hatchery.prodQ.unshift({
+	        role: 'courier'
 	    });
 	}
 	if (creep.carry.energy < creep.carryCapacity) {

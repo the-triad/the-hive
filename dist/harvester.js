@@ -32,7 +32,9 @@ module.exports = function (creep) {
 		creep.moveTo(sources[0]);
 		creep.harvest(sources[0]);
 	} else if (creep.memory.mule && creep.memory.mule !== 'incoming') {
-	    //
+		var mule = Game.creeps[creep.memory.mule];
+	    creep.moveTo(mule);
+	    creep.transferEnergy(mule);
 	} else {
 		var spawn = Game.spawns[hatchery.spawnName]
 		creep.moveTo(spawn);

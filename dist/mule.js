@@ -8,16 +8,23 @@ module.exports = function (creep) {
     var target = Game.creeps[targetName];
     var mule = target.memory.mule;
 	if (!mule || mule === 'incoming') {
-	    target.memory.mule = creep.name;
+		target.memory.mule = creep.name;
 	}
 
 	creep.moveTo(target);
-    if (
+    if (creep.memory.muleType === 'pickup' &&
         creep.carry.energy >= 0.8 * creep.carryCapacity &&
         !creep.memory.courier
     ) { // TODO use settings
         hatchery.pickupQ.push(creep.name);
         creep.memory.courier = 'incoming';
 	}
+	if (creep.memory.muleType === 'deliver' &&
+        creep.carry.energy <= 0.2 * creep.carryCapacity &&
+        !creep.memory.courier
+    ) { // TODO use settings
+        hatchery.deliverQ.push(creep.name);
+        creep.memory.courier = 'incoming';
+	}
 	creep.transferEnergy(Game.creeps[creep.memory.courier]);
-}
+};

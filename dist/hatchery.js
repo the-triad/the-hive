@@ -4,13 +4,13 @@ module.exports = function (hatcheryName) {
 	var hatchery = Memory.hatcheries[hatcheryName];
 	var spawnName = hatchery.spawnName;
 	var spawn = Game.spawns[spawnName];
-	
+	var sourceIndex;
 
 	if (!hatchery.sources) {
 		// initial step of figuring out the sources
 		hatchery.sources = [];
 		var sources = spawn.room.find(FIND_SOURCES);
-		for(var sourceIndex in sources) {
+		for(sourceIndex in sources) {
 			var source = sources[sourceIndex];
 			hatchery.sources.push({
 				path: spawn.room.findPath(spawn.pos, source.pos),
@@ -22,16 +22,19 @@ module.exports = function (hatcheryName) {
 				return a.path.length - b.path.length;
 			});
 		}
+		hatchery.prodQ.push({
+			role: 'builder'
+		});
 	}
 	
-	for (var sourceIndex in hatchery.sources) {
+	for (sourceIndex in hatchery.sources) {
 		// we make sure the source has a harvester
 		var sourceObj = hatchery.sources[sourceIndex];
 		var assigned = sourceObj.assigned;
 		var sourceCreep = Game.creeps[assigned];
 		if (!sourceCreep && assigned != 'incoming') {
 			// we need a harvester there
-			hatchery.prodQ.push({
+			hatchery.prodQ.unshift({
 				role: 'harvester',
 				source: sourceObj
 			});
@@ -39,21 +42,16 @@ module.exports = function (hatcheryName) {
 		}
 	}
 	
-	/*if (hatchery.pickupQ.length) {
-	    hatchery.prodQ.unshift({
-	        role: 'courier'
-	    });
-	}*/
-	
 	if (hatchery.prodQ.length) {
 		var prodObj = hatchery.prodQ[0];
 		var body = Memory.settings.creepRoles[prodObj.role].body;
 		if(spawn.canCreateCreep(body) == OK) {
 			spawn.createCreep(body, undefined, {
-			    role: prodObj.role,
-			    hatcheryName: hatcheryName,
-			    source: prodObj.source,
-			    targetName: prodObj.targetName
+				role: prodObj.role,
+				hatcheryName: hatcheryName,
+				source: prodObj.source,
+				targetName: prodObj.targetName,
+				muletype: prodObj.muleType
 			});
 			hatchery.prodQ.shift();
 		}

@@ -46,11 +46,11 @@ module.exports = function (hatcheryName) {
 			spawn.createCreep(body, undefined, {
 			    role: prodObj.role,
 			    hatcheryName: hatcheryName,
-			    source: prodObj.source
+			    source: prodObj.source,
+			    target: prodObj.target
 			});
 			hatchery.prodQ.shift();
 		}
 	}
 	
 };
-

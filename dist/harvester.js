@@ -3,17 +3,6 @@ module.exports = function (creep) {
 	
 	var hatchery = Memory.hatcheries[creep.memory.hatcheryName];
 
-	/*if (!creep.memory.harvestSource) {
-		var sources = hatchery.memory.sources;
-		for (var index in sources) {
-			var hatchSource = sources[index];
-			if (hatchSource.assigned < hatchSource.capacity) {
-				creep.memory.harvestSource = hatchSource.index;
-				hatchSource.assigned++;
-				break;
-			}
-		}
-	}*/
 	if (!creep.memory.mule) {
 	    creep.memory.mule = 'incoming';
 	    hatchery.prodQ.push({
@@ -33,7 +22,7 @@ module.exports = function (creep) {
 		creep.harvest(sources[0]);
 	} else if (creep.memory.mule && creep.memory.mule !== 'incoming') {
 		var mule = Game.creeps[creep.memory.mule];
-	    creep.moveTo(mule);
+	    //creep.moveTo(mule);
 	    creep.transferEnergy(mule);
 	} else {
 		var spawn = Game.spawns[hatchery.spawnName]
@@ -41,4 +30,3 @@ module.exports = function (creep) {
 		creep.transferEnergy(spawn);
 	}
 };
-

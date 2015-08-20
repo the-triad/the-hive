@@ -47,7 +47,7 @@ module.exports = function (hatcheryName) {
 			    role: prodObj.role,
 			    hatcheryName: hatcheryName,
 			    source: prodObj.source,
-			    target: prodObj.target
+			    target: prodObj.targetName
 			});
 			hatchery.prodQ.shift();
 		}

@@ -7,7 +7,7 @@ module.exports = function (creep) {
 	    creep.memory.mule = 'incoming';
 	    hatchery.prodQ.push({
 	        role: 'mule',
-	        target: creep.name
+	        targetName: creep.name
 	    });
 	}
 	if (creep.carry.energy < creep.carryCapacity) {

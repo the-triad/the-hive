@@ -6,5 +6,5 @@ Creep.prototype.work = function() {
   if (!roles[role]) {
     roles[role] = require('role-' + role);
   }
-  roles[role](this);
+  roles[role].call(this);
 };

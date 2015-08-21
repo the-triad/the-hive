@@ -1,52 +1,52 @@
 /*global Game, Memory, FIND_SOURCES*/
-module.exports = function (creep) {
-    
-    var hatchery = Memory.hatcheries[creep.memory.hatcheryName];
-    var spawn = Game.spawns[hatchery.spawnName];
-    
-    if (!creep.memory.targetName && hatchery.pickupQ.length && creep.carry.energy < creep.carryCapacity) {
-        creep.memory.targetName = hatchery.pickupQ.shift();
-        Game.creeps[creep.memory.targetName].memory.courier = creep.name;
-        creep.memory.delivery = 'pickup';
+module.exports = function () {
+  var hatchery = Memory.hatcheries[this.memory.hatcheryName];
+  var spawn = Game.spawns[hatchery.spawnName];
+
+  if (!this.memory.targetName && hatchery.pickupQ.length && this.carry.energy < this.carryCapacity) {
+    this.memory.targetName = hatchery.pickupQ.shift();
+    Game.creeps[this.memory.targetName].memory.courier = this.name;
+    this.memory.delivery = 'pickup';
+  }
+
+  if (!this.memory.targetName && hatchery.deliverQ.length) {
+    this.memory.targetName = hatchery.deliverQ.shift();
+    Game.creeps[this.memory.targetName].memory.courier = this.name;
+    spawn.transferEnergy(this);
+    this.memory.delivery = 'deliver';
+  }
+
+  if (this.memory.targetName) {
+    var target = Game.creeps[this.memory.targetName];
+    if (!target) {
+      this.memory.targetName = null;
+    } else {
+      this.moveTo(target);
+      if (this.memory.delivery === 'deliver') {
+        this.transferEnergy(target);
+      }
     }
-    
-    if (!creep.memory.targetName && hatchery.deliverQ.length) {
-        creep.memory.targetName = hatchery.deliverQ.shift();
-        Game.creeps[creep.memory.targetName].memory.courier = creep.name;
-        spawn.transferEnergy(creep);
-        creep.memory.delivery = 'deliver';
+  }
+
+  if (this.memory.delivery === 'pickup' && this.carry.energy === this.carryCapacity) {
+    if (this.memory.targetName) {
+      var targetCreep = Game.creeps[this.memory.targetName];
+      if (targetCreep) {
+        targetCreep.memory.courier = null;
+      }
+      this.memory.targetName = null;
     }
 
-    if (creep.memory.targetName) {
-        var target = Game.creeps[creep.memory.targetName];
-        if (!target) {
-            creep.memory.targetName = null;
-        } else {
-			creep.moveTo(target);
-            if (creep.memory.delivery === 'deliver') {
-                creep.transferEnergy(target);
-            }
-        }
+    this.moveTo(spawn);
+    this.transferEnergy(spawn);
+  }
+
+  if (this.memory.delivery === 'deliver' && this.carry.energy === 0) {
+    if (this.memory.targetName) {
+      Game.creeps[this.memory.targetName].memory.courier = null;
+      this.memory.targetName = null;
     }
-    
-    if (creep.memory.delivery === 'pickup' && creep.carry.energy === creep.carryCapacity) {
-        if (creep.memory.targetName) {
-            var targetCreep = Game.creeps[creep.memory.targetName];
-            if (targetCreep) {
-                targetCreep.memory.courier = null;
-            }
-            creep.memory.targetName = null;
-        }
-        
-		creep.moveTo(spawn);
-		creep.transferEnergy(spawn);
-    }
-    
-    if (creep.memory.delivery === 'deliver' && creep.carry.energy === 0) {
-        if (creep.memory.targetName) {
-            Game.creeps[creep.memory.targetName].memory.courier = null;
-            creep.memory.targetName = null;
-        }
-		creep.moveTo(spawn);
-    }
+
+    this.moveTo(spawn);
+  }
 };

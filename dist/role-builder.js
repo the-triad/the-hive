@@ -1,24 +1,23 @@
 /*global Game, Memory */
-module.exports = function (creep) {
-    
-	var hatchery = Memory.hatcheries[creep.memory.hatcheryName];
+module.exports = function () {
+	var hatchery = Memory.hatcheries[this.memory.hatcheryName];
 
-	if (!creep.memory.mule) {
-		creep.memory.mule = 'incoming';
+	if (!this.memory.mule) {
+		this.memory.mule = 'incoming';
 		hatchery.prodQ.unshift({
 			role: 'mule',
 			muleType: 'deliver',
-			targetName: creep.name
+			targetName: this.name
 		});
 	}
-	if (creep.carry.energy === 0 && creep.memory.mule && creep.memory.mule !== 'incoming') {
-		var mule = Game.creeps[creep.memory.mule];
-		mule.transferEnergy(creep);
+	if (this.carry.energy === 0 && this.memory.mule && this.memory.mule !== 'incoming') {
+		var mule = Game.thiss[this.memory.mule];
+		mule.transferEnergy(this);
 	} else {
-		var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+		var targets = this.room.find(FIND_CONSTRUCTION_SITES);
 		if (targets.length) {
-			creep.moveTo(targets[0]);
-			creep.build(targets[0]);
+			this.moveTo(targets[0]);
+			this.build(targets[0]);
 		}
 	}
 };

@@ -19,9 +19,13 @@ module.exports = function (creep) {
 
     if (creep.memory.targetName) {
         var target = Game.creeps[creep.memory.targetName];
-		creep.moveTo(target);
-        if (creep.memory.delivery === 'deliver') {
-            creep.transferEnergy(target);
+        if (!target) {
+            creep.memory.targetName = null;
+        } else {
+			creep.moveTo(target);
+            if (creep.memory.delivery === 'deliver') {
+                creep.transferEnergy(target);
+            }
         }
     }
     

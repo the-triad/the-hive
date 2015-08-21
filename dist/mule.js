@@ -28,5 +28,7 @@ module.exports = function (creep) {
         hatchery.deliverQ.push(creep.name);
         creep.memory.courier = 'incoming';
 	}
-	creep.transferEnergy(Game.creeps[creep.memory.courier]);
+	if (creep.memory.muleType === 'pickup') {
+		creep.transferEnergy(Game.creeps[creep.memory.courier]);
+	}
 };

@@ -57,7 +57,7 @@ module.exports = function (hatcheryName) {
 		}
 	}
 
-	if (Game.creeps.officialBuilder) {
+	if (!Game.creeps.officialBuilder) {
 		hatchery.prodQ.push({
 			role: 'builder',
 			name: 'officialBuilder'

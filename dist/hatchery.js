@@ -56,5 +56,14 @@ module.exports = function (hatcheryName) {
 			hatchery.prodQ.shift();
 		}
 	}
+
+	var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+	if (targets.length && !Game.creeps.filter(function (cr) {
+		return cr.memory.role === 'builder';
+	}).length) {
+		hatchery.prodQ.push({
+			role: 'builder'
+		});
+	}
 	
 };

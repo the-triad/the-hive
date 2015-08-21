@@ -6,10 +6,12 @@ module.exports = function (creep) {
     var targetName = creep.memory.targetName;
     //console.log(targetName);
     var target = Game.creeps[targetName];
-    var mule = target.memory.mule;
-	if (!mule || mule === 'incoming') {
-		target.memory.mule = creep.name;
-	}
+    if (target) {
+        var mule = target.memory.mule;
+		if (!mule || mule === 'incoming') {
+			target.memory.mule = creep.name;
+		}
+    }
 
 	creep.moveTo(target);
     if (creep.memory.muleType === 'pickup' &&
@@ -28,4 +30,3 @@ module.exports = function (creep) {
 	}
 	creep.transferEnergy(Game.creeps[creep.memory.courier]);
 };
-

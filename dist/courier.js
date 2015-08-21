@@ -4,8 +4,7 @@ module.exports = function (creep) {
     var hatchery = Memory.hatcheries[creep.memory.hatcheryName];
     var spawn = Game.spawns[hatchery.spawnName];
     
-    console.log(creep.carry);
-    if (!creep.memory.targetName && hatchery.pickupQ.length && !creep.carry.energy < creep.carryCapacity) {
+    if (!creep.memory.targetName && hatchery.pickupQ.length && creep.carry.energy < creep.carryCapacity) {
         creep.memory.targetName = hatchery.pickupQ.shift();
         Game.creeps[creep.memory.targetName].memory.courier = creep.name;
         creep.memory.delivery = 'pickup';
@@ -20,7 +19,7 @@ module.exports = function (creep) {
 
     if (creep.memory.targetName) {
         var target = Game.creeps[creep.memory.targetName];
-	    creep.moveTo(target);
+		creep.moveTo(target);
         if (creep.memory.delivery === 'deliver') {
             creep.transferEnergy(target);
         }
@@ -28,7 +27,10 @@ module.exports = function (creep) {
     
     if (creep.memory.delivery === 'pickup' && creep.carry.energy === creep.carryCapacity) {
         if (creep.memory.targetName) {
-            Game.creeps[creep.memory.targetName].memory.courier = null;
+            var targetCreep = Game.creeps[creep.memory.targetName];
+            if (targetCreep) {
+                targetCreep.memory.courier = null;
+            }
             creep.memory.targetName = null;
         }
         
@@ -43,4 +45,4 @@ module.exports = function (creep) {
         }
 		creep.moveTo(spawn);
     }
-}
+};

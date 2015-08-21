@@ -23,7 +23,7 @@ module.exports = function () {
 				body: [ATTACK, MOVE],
 			},
 			builder: {
-				body: [WORK, CARRY, MOVE],
+				body: [WORK, WORK, CARRY, MOVE],
 				mule: {
 					needsMobile: true,
 					type: 'mule',

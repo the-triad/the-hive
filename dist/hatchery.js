@@ -46,7 +46,7 @@ module.exports = function (hatcheryName) {
 		var prodObj = hatchery.prodQ[0];
 		var body = Memory.settings.creepRoles[prodObj.role].body;
 		if(spawn.canCreateCreep(body) == OK) {
-			spawn.createCreep(body, undefined, {
+			spawn.createCreep(body, prodObj.name, {
 				role: prodObj.role,
 				hatcheryName: hatcheryName,
 				source: prodObj.source,
@@ -57,12 +57,10 @@ module.exports = function (hatcheryName) {
 		}
 	}
 
-	var targets = spawn.room.find(FIND_CONSTRUCTION_SITES);
-	if (targets.length && !Game.creeps.filter(function (cr) {
-		return cr.memory.role === 'builder';
-	}).length) {
+	if (Game.creeps.officialBuilder) {
 		hatchery.prodQ.push({
-			role: 'builder'
+			role: 'builder',
+			name: 'officialBuilder'
 		});
 	}
 	

@@ -34,7 +34,7 @@ for(var hatcheryName in Memory.hatcheries) {
 
 var creep = require('creep');
 for (var creepName in Game.creeps) {
-	creep(creepName)
+	creep(creepName);
 }
 //ACHTUNG! before putting more stuff in here:
 // will it scale with more zones or should

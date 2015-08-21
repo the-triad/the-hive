@@ -33,3 +33,4 @@ module.exports = function (creep) {
 		creep.transferEnergy(spawn);
 	}
 };
+

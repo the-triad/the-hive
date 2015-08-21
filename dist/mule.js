@@ -28,3 +28,4 @@ module.exports = function (creep) {
 	}
 	creep.transferEnergy(Game.creeps[creep.memory.courier]);
 };
+

@@ -19,7 +19,7 @@ module.exports = function (hatcheryName) {
 			});
 			// closest source comes first
 			hatchery.sources.sort(function (a, b) {
-				return a.path.length - b.path.length;
+				return b.path.length - a.path.length;
 			});
 		}
 		hatchery.prodQ.push({
@@ -51,10 +51,11 @@ module.exports = function (hatcheryName) {
 				hatcheryName: hatcheryName,
 				source: prodObj.source,
 				targetName: prodObj.targetName,
-				muletype: prodObj.muleType
+				muleType: prodObj.muleType
 			});
 			hatchery.prodQ.shift();
 		}
 	}
 	
 };
+

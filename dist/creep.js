@@ -4,7 +4,7 @@ Creep.prototype.work = function() {
 
   // Load roles on demand
   if (!roles[role]) {
-    roles[role] = require(role);
+    roles[role] = require('role-' + role);
   }
-  roles[role](this);
+  roles[role].call(this);
 };

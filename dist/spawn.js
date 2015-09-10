@@ -7,7 +7,9 @@ Spawn.prototype.buildHarvester = function (source) {
 	this.createCreep(body, undefined, {
 		role: 'harvester',
 		spawnID: this.id,
-		sourceID: source.id
+		sourceID: source.id,
+		workSpeed: 50 / 4, // from starting til full, how many ticks.
+		giver: true
 	});
 };
 
@@ -19,6 +21,17 @@ Spawn.prototype.buildCourier = function () {
 
 	this.createCreep(body, undefined, {
 		role: 'courier'
+	});
+};
+
+Spawn.prototype.buildWorker = function () {
+	var max = this.getMaxEnergy();
+
+	// TODO: Using max, we can determine what body to create
+	var body = [WORK, WORK, CARRY, MOVE];
+
+	this.createCreep(body, undefined, {
+		role: 'worker'
 	});
 };
 
@@ -49,6 +62,16 @@ Spawn.prototype.work = function () {
 		this.buildHarvester(unassignedSource);
 	} else if (true) { // TODO: determine if courier is needed.
 		this.buildCourier();
+	} else if (true) {
+		// TODO Build other things.
 	}
 };
+
+Spawn.prototype.roomCreeps = function () {
+	return this.room.find(FIND_MY_CREEPS, {
+		filter: function (creep) {
+			return creep.memory.role === 'harvester' || creep.memory.role === 'builder';
+		}
+	})
+}
 

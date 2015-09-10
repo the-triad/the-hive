@@ -25,4 +25,11 @@ module.exports = function () {
 		this.moveTo(spawn);
 		this.transferEnergy(spawn);
 	}
+
+	// Calculate need.
+
+	var pct = this.carry.energy / this.carryCapacity;
+	var workProgress = this.memory.workSpeed * pct; // how far along his task he is (in ticks)
+	this.memory.ttf = this.memory.workSpeed - workProgress;
+    console.log(this.id + ' ' + this.memory.ttf);
 };

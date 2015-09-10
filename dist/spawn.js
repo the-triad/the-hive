@@ -1,6 +1,8 @@
 Spawn.prototype.buildHarvester = function (source) {
+	var max = this.getMaxEnergy();
+
+	// TODO: Using max, we can determine what body to create
 	var body = [WORK, WORK, CARRY, MOVE];
-	var max = 300;
 
 	this.createCreep(body, undefined, {
 		role: 'harvester',
@@ -9,24 +11,44 @@ Spawn.prototype.buildHarvester = function (source) {
 	});
 };
 
+Spawn.prototype.buildCourier = function () {
+	var max = this.getMaxEnergy();
+
+	// TODO: Using max, we can determine what body to create
+	var body = [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE];
+
+	this.createCreep(body, undefined, {
+		role: 'courier'
+	});
+};
+
 Spawn.prototype.bestUnassignedSource = function () {
-	var sources = this.pos.findClosestByPath(FIND_SOURCES, {
+	return this.pos.findClosestByPath(FIND_SOURCES, {
 		filter: function (source) {
-			return source.hasHarvester();
+			return !source.hasHarvester();
 		}
 	});
-	return sources[0];
+};
+
+Spawn.prototype.getMaxEnergy = function () {
+	// TODO: Later we can take into account the extensions.
+	return this.energyCapacity;
+};
+
+Spawn.prototype.getRoomEnergy = function () {
+	// TODO: Later we can take into account the extensions.
+	return this.energy;
 };
 
 Spawn.prototype.work = function () {
-	if (this.energy < this.energyCapacity) {
+	if (this.getRoomEnergy() < this.getMaxEnergy()) {
 		return;
 	}
 	var unassignedSource = this.bestUnassignedSource();
 	if (unassignedSource) {  // i need a thing
 		this.buildHarvester(unassignedSource);
-	} else if () {
-
+	} else if (true) { // TODO: determine if courier is needed.
+		this.buildCourier();
 	}
 };
 

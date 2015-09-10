@@ -1,4 +1,18 @@
 /*global Memory, Game*/
+
+require('spawn');
+require('creep');
+require('source');
+
+for (var spawn in Game.spawns) {
+	Game.spawns[spawn].work();
+}
+
+for (var creepName in Game.creeps) {
+	Game.creeps[creepName].work();
+}
+
+/*
 //var info = require('info')();
 
 // Settings don't change till reload and belong
@@ -39,3 +53,4 @@ for (var creepName in Game.creeps) {
 //ACHTUNG! before putting more stuff in here:
 // will it scale with more zones or should
 // it be in hatchery instead?
+*/

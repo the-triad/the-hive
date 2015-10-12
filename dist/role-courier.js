@@ -18,41 +18,40 @@ module.exports = function () {
 	} else {
 		// get action.
 		var pctFull = this.carry.energy / this.carryCapacity;
+		var courierTargets = this.room.findCourierTargets();
 
-		if (pctFull > 0.75) {
-			// I'm pretty full, find someone to give it to.
-
-			var takers = this.room.find(FIND_MY_STRUCTURES, {
-				// Currently only taker is spawn.
-				//filter: function (c) {
-				//	return c.memory.taker === true;
-				//}
+		if (pctFull > 0.75) { // I'm pretty full, find someone to give it to.
+			var takers = this.room.findTakers();
+			takers = takers.sort(function (x, y) {
+				return x.ttf() - y.ttf();
 			});
 
-			if (takers.length) {
-				takers = takers.sort(function (x, y) {
-					return x.memory.ttf - y.memory.ttf;
-				});
+			untargetedTakers = takers.filter(function(taker) {
+				return courierTargets.indexOf(taker.id) === -1;
+			});
 
+			if (untargetedTakers.length) {
+				this.memory.action = 'give';
+				this.memory.targetID = untargetedTakers[0].id;
+			} else if (takers.length) {
 				this.memory.action = 'give';
 				this.memory.targetID = takers[0].id;
 			}
 
 		} else {
 			// Oh noe! I'm empty. Go get someones.
-			var givers = this.room.find(FIND_MY_CREEPS, {
-				filter: function (c) {
-					return c.memory.giver === true;
-				}
+			var givers = this.room.findGivers();
+			givers = givers.sort(function (x, y) {
+				return y.ttf() - x.ttf();
+			});
+			var untargetedGivers = givers.filter(function(giver) {
+				return courierTargets.indexOf(giver.id) === -1;
 			});
 
-			if (givers.length) {
-				givers = givers.sort(function (x, y) {
-					return y.memory.ttf - x.memory.ttf;
-				});
-
-				console.log(givers[0].memory.ttf + ' ' + givers[1].memory.ttf)
-
+			if (untargetedGivers.length) {
+				this.memory.action = 'take';
+				this.memory.targetID = untargetedGivers[0].id;
+			} else if (givers.length) {
 				this.memory.action = 'take';
 				this.memory.targetID = givers[0].id;
 			}

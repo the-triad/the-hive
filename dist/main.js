@@ -3,6 +3,8 @@
 require('spawn');
 require('creep');
 require('source');
+require('structure');
+require('room');
 
 for (var spawn in Game.spawns) {
 	Game.spawns[spawn].work();

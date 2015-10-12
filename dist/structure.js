@@ -8,3 +8,7 @@ Structure.prototype.isGiver = function() {
 Structure.prototype.isTaker = function() {
   return !this.isGiver();
 };
+
+Structure.prototype.ttf = function() {
+  return 5;
+};

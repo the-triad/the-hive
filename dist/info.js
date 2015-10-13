@@ -13,7 +13,7 @@ module.exports = function () {
 		if (info.count[creep.memory.role]) {
 			info.count[creep.memory.role]++;
 		} else {
-			info.count[creep.memory.role] = 0;
+			info.count[creep.memory.role] = 1;
 		}
 		info.total++;
 	}
@@ -22,6 +22,5 @@ module.exports = function () {
 		getInfo: function () {
 			return info;
 		}
-
 	};
 };

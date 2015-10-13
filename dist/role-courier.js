@@ -26,7 +26,7 @@ module.exports = function () {
 				return x.ttf() - y.ttf();
 			});
 
-			untargetedTakers = takers.filter(function(taker) {
+			var untargetedTakers = takers.filter(function(taker) {
 				return courierTargets.indexOf(taker.id) === -1;
 			});
 

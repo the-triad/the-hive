@@ -7,21 +7,21 @@
 };*/
 
 Room.prototype.findTakers = function() {
-	var results = this.find(FIND_MY_CREEPS, function(creep) {
+	var results = this.find(FIND_MY_CREEPS).filter(function(creep) {
 		return creep.isTaker();
 	});
 
-	return results.concat(this.find(FIND_MY_STRUCTURES, function(structure) {
+	return results.concat(this.find(FIND_MY_STRUCTURES).filter(function(structure) {
 		return structure.isTaker();
 	}));
 };
 
 Room.prototype.findGivers = function() {
-	var results = this.find(FIND_MY_CREEPS, function(creep) {
+	var results = this.find(FIND_MY_CREEPS).filter(function(creep) {
 		return creep.isGiver();
 	});
 
-	results = results.concat(this.find(FIND_MY_STRUCTURES, function(structure) {
+	results = results.concat(this.find(FIND_MY_STRUCTURES).filter(function(structure) {
 		return structure.isGiver();
 	}));
 

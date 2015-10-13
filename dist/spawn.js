@@ -73,5 +73,8 @@ Spawn.prototype.roomCreeps = function () {
 			return creep.memory.role === 'harvester' || creep.memory.role === 'builder';
 		}
 	})
-}
+};
 
+Spawn.prototype.ttf = function() {
+  return 5;
+};

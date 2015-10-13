@@ -1,8 +1,5 @@
 Structure.prototype.isGiver = function() {
-  if (this.energy && this.energyCapacity) {
-    return true;
-  }
-  return false;
+  return this.energy && this.energyCapacity && !!this.transferEnergy;
 };
 
 Structure.prototype.isTaker = function() {

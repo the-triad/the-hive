@@ -78,3 +78,11 @@ Spawn.prototype.roomCreeps = function () {
 Spawn.prototype.ttf = function() {
   return 5;
 };
+
+Spawn.prototype.isGiver = function() {
+  return !!(this.energy && this.energyCapacity && !!this.transferEnergy);
+};
+
+Spawn.prototype.isTaker = function() {
+  return !this.isGiver();
+};

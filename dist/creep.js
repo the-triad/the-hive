@@ -34,3 +34,11 @@ Creep.prototype.workSpeed = function() {
 
   return this._workSpeed;
 };
+
+Creep.prototype.takeEnergyFrom = function(target) {
+  if (target instanceof Energy) {
+    return this.pickup(target);
+  } else if (!!target.transferEnergy) {
+    return target.transferEnergy(this);
+  }
+}

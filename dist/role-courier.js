@@ -5,9 +5,14 @@ module.exports = function () {
 		var target = Game.getObjectById(this.memory.targetID);
 		this.moveTo(target);
 		if (this.memory.action === 'take') {
-			if(target.transferEnergy(this) === OK) {
+			if (target) {
+				if(this.takeEnergyFrom(target) === OK) {
+					this.memory.action = null;
+				}
+			} else {
 				this.memory.action = null;
 			}
+
 		} else if (this.memory.action === 'give') {
 			if(this.transferEnergy(target) === OK) {
 				this.memory.action = null;

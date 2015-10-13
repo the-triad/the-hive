@@ -35,3 +35,15 @@ Room.prototype.findCourierTargets = function() {
     return courier.memory.targetID;
   });
 };
+
+Room.prototype.findHarvesters = function() {
+	return this.find(FIND_MY_CREEPS).filter(function(creep) {
+		return creep.memory.role === 'harvester';
+	});
+};
+
+Room.prototype.findCouriers = function() {
+	return this.find(FIND_MY_CREEPS).filter(function(creep) {
+		return creep.memory.role === 'courier';
+	});
+};

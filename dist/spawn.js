@@ -57,8 +57,15 @@ Spawn.prototype.work = function () {
 	if (this.getRoomEnergy() < this.getMaxEnergy()) {
 		return;
 	}
+	var harvesters = this.room.findHarvesters();
+	var couriers = this.room.findCouriers();
 	var unassignedSource = this.bestUnassignedSource();
-	if (unassignedSource) {  // i need a thing
+	
+	if (harvesters.length < 1) {
+		this.buildHarvester(unassignedSource);
+	} else if (couriers.length < 1) {
+		this.buildCourier();
+	} else if (unassignedSource) {  // i need a thing
 		this.buildHarvester(unassignedSource);
 	} else if (true) { // TODO: determine if courier is needed.
 		this.buildCourier();

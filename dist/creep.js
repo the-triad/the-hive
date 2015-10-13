@@ -10,11 +10,11 @@ Creep.prototype.work = function() {
 };
 
 Creep.prototype.isTaker = function() {
-  return ['worker', 'harvester'].indexOf(this.memory.role !== -1);
+  return ['worker'].indexOf(this.memory.role) !== -1;
 };
 
 Creep.prototype.isGiver = function() {
-  return !this.isTaker();
+  return ['harvester'].indexOf(this.memory.role) !== -1;
 };
 
 Creep.prototype.ttf = function() {

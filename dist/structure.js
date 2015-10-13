@@ -3,7 +3,7 @@ Structure.prototype.isGiver = function() {
 };
 
 Structure.prototype.isTaker = function() {
-  return !this.isGiver();
+  return this.energyCapacity;
 };
 
 Structure.prototype.ttf = function() {
